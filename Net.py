@@ -45,5 +45,4 @@ class Net(nn.Module):
         return x
 
 
-if __name__ == '__main__':
-    pass
+pass

@@ -47,14 +47,12 @@ class Utils:
         Prepares transformers for image preprocessing
         :return: transformers for preprocessing
         '''
-        transform = transforms.Compose(
+        return transforms.Compose(
             [
                 transforms.ToPILImage(),
                 transforms.ToTensor(),
                 transforms.Normalize(mean=(0.5,), std=(0.5,))
             ])
-
-        return transform
 
     @staticmethod
     def contains(a, b):
@@ -64,10 +62,10 @@ class Utils:
         :param b:
         :return: returns True if array b is a subsequence of a, else False
         '''
-        for i in range(a.shape[0] - b.shape[0] + 1):
-            if (a[i:i + b.shape[0]] == b).all():
-                return True
-        return False
+        return any(
+            (a[i : i + b.shape[0]] == b).all()
+            for i in range(a.shape[0] - b.shape[0] + 1)
+        )
 
     @staticmethod
     def readFrame(cap, IMG_SIZE=(128, 128)):
@@ -138,5 +136,3 @@ class Utils:
 
         if not self.isStream:
             cv2.imshow("Stream", output)
-        else:
-            pass
