@@ -102,5 +102,4 @@ class Workout:
         #return self.training_stats
 
 
-if __name__ == '__main__':
-    pass
+pass

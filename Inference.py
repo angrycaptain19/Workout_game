@@ -31,10 +31,7 @@ class ExerciseCapture:
 
         self.origFrame, self.moves, self.totalTime = cv2.imread('blank.png'), 0, 0
 
-        if self.fromStream:
-            self.file = 0
-        else:
-            self.file = self.utils.getArgs()
+        self.file = 0 if self.fromStream else self.utils.getArgs()
 
 
     def classifyFrame(self, flow):
@@ -67,10 +64,7 @@ class ExerciseCapture:
         :return: current label sequnce and total move count
         '''
         if self.utils.contains(np.array(labels)[np.array(labels) != 1], np.array(sequence)):
-            if self.name == 'Sit up':
-                moves += 1
-            else:
-                moves += 1
+            moves += 1
             labels = [1, 1, 1, 1, 1]
         return labels, moves
 
@@ -81,14 +75,12 @@ class ExerciseCapture:
         :param moves: total number of moves since start
         :return: isMoveFinished?
         '''
-        if self.timeWise:
-            if timePassed >= self.thresh:
-                return True
-        else:
-            if moves >= self.thresh:
-                return True
-
-        return False
+        return bool(
+            self.timeWise
+            and timePassed >= self.thresh
+            or not self.timeWise
+            and moves >= self.thresh
+        )
   
     def runPipeline(self, cap):
         '''

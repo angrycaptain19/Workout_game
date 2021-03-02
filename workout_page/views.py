@@ -38,10 +38,10 @@ def get_frame():
             bottomLeftCornerOfText = (30, 30)
             fontScale = 1
             fontColor = (255, 255, 255)
-            lineType = 2
             if workout.isStarted:
-                if not workout.isRest:
 
+                lineType = 2
+                if not workout.isRest:
                     # current exercise
                     cv2.putText(output, str(workout.currentExercise),
                                     (output.shape[0] // 2, 30),
@@ -110,7 +110,6 @@ def get_frame():
 
 
                 else:
-
                     # workout type
                     cv2.putText(output, 'Pause',
                                     (output.shape[0] // 2, 30),
@@ -151,9 +150,12 @@ def index(request):
 
 
     # add all workouts from the database to the drop down list
-    workouts = []
-    for index, wk in enumerate(Workouts.objects.values_list('workout_name').distinct()):
-        workouts.append(wk[0])
+    workouts = [
+        wk[0]
+        for index, wk in enumerate(
+            Workouts.objects.values_list('workout_name').distinct()
+        )
+    ]
 
     try:
         template = "index.html"
